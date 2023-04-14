@@ -1,0 +1,167 @@
+import re
+import math
+from json import loads
+str_mat=input()
+lst=loads(str_mat)
+command = input()
+
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.nextref=None
+        self.prevref=None
+class DoublyLinkedList:
+    def __init__(self):
+        self.head=None
+
+#print in array format
+    def __str__(self):
+       
+        # defining a blank res variable
+        res = ""
+         
+        # initializing ptr to head
+        ptr = self.head
+         
+       # traversing and adding it to res
+        while ptr:
+            res += str(ptr.data) + ", "
+            ptr = ptr.nextref
+ 
+       # removing trailing commas
+        res = res.strip(", ")
+         
+        # chen checking if
+        # anything is present in res or not
+        if len(res):
+            return "[" + res + "]"
+        else:
+            return "[]"
+
+#add element at beginning of linked list 
+    def add_begin(self,data):
+        new_node=Node(data)
+        new_node.nextref=self.head
+        self.head=new_node
+#add element to end of list
+    def add_end(self,data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            n=self.head
+            while n.nextref is not None:
+                n=n.nextref 
+            n.nextref=new_node
+    #get element at nth node
+    def getNth(self, index):
+ 
+        # Initialise temp
+        current = self.head 
+ 
+        # Index of current node
+        count = 0 
+ 
+        # Loop while end of linked list
+        # is not reached
+        while (current):
+            if (count == index):
+                return current.data
+            count += 1
+            current = current.nextref
+ 
+        # If we get to this line, the caller was
+        # asking for a non-existent element so
+        # we assert fail
+        assert(false)
+        return 0
+if __name__ == "__main__":
+
+    LL1= DoublyLinkedList()
+    for i in range(len(lst)):
+        LL1.add_end(lst[i])
+    
+if(command == "add"):
+    element=int(input())
+    LL1.add_end(element)
+    print(LL1)
+    
+
+elif(command == "addToIndex"):
+    index=int(input())
+    num=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+    else:
+        lst.insert(index, num)
+        print(lst)
+
+    
+elif(command=="get"):
+    index=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+        
+    else:
+        print(LL1.getNth(index))
+        
+        
+elif(command=="set"):
+    
+    index=int(input())    
+    num=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+        
+    else:
+        lst[index]=num
+        print(lst)
+        
+      
+elif(command =="clear"):
+    lst =[]
+    print(lst)
+    
+elif(command =="size"):
+    print(len(lst))
+    
+elif(command =="isEmpty"):
+    if len(lst)==0:
+        print("True")
+    else:
+        print("False") 
+    
+        
+elif(command =="remove"):
+    
+    index=int(input())
+    if(index>len(lst)-1 or index<0 ):
+    
+        print("Error")
+       
+    else:
+        
+        lst.pop(index)
+        print(lst)
+        
+    
+elif(command=="sublist"):
+    st_index=int(input())
+    nd_index=int(input())
+    if(st_index<len(lst) and nd_index<len(lst) and st_index>=0 and nd_index>0 and st_index<=nd_index):
+        print(lst[st_index:nd_index +1])
+    else:
+        
+        print("Error")
+        
+    
+    
+elif(command=="contains"):
+    num=int(input())
+    exist_count = lst.count(num)
+    if exist_count > 0:
+        print("True")
+    else:
+        print("False")
+    
+               
