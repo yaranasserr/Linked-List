@@ -1,0 +1,277 @@
+import re
+import math
+from json import loads
+str_mat=input()
+lst=loads(str_mat)
+command = input()
+
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.ref=None
+class LinkedList:
+    def __init__(self):
+        self.tail = None
+        self.head = None
+        self.count = 0
+
+#print in array format
+    def __str__(self):
+       
+        # defining a blank res variable
+        res = ""
+         
+        # initializing ptr to head
+        ptr = self.head
+         
+       # traversing and adding it to res
+        while ptr:
+            res += str(ptr.data) + ", "
+            ptr = ptr.ref
+ 
+       # removing trailing commas
+        res = res.strip(", ")
+         
+        # chen checking if
+        # anything is present in res or not
+        if len(res):
+            return "[" + res + "]"
+        else:
+            return "[]"
+
+#add element at beginning of linked list 
+    def add_begin(self,data):
+        new_node=Node(data)
+        new_node.ref=self.head
+        self.head=new_node
+#add element to end of list
+    def add_end(self,data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            n=self.head
+            while n.ref is not None:
+                n=n.ref 
+            n.ref=new_node
+#get element at nth node
+    def getNth(self, index):
+        # Initialise temp
+        current = self.head 
+        # Index of current node
+        count = 0 
+        # Loop while end of linked list
+        # is not reached
+        while (current):
+            if (count == index):
+                return current.data
+            count += 1
+            current = current.ref
+        # asking for a non-existent element so       
+        assert(false)
+        return 0
+    
+    
+# #set element at nth index
+    def setNth(self, index,value):
+            # Initialise temp
+        current = self.head 
+        # Index of current node
+        count = 0 
+        # Loop while end of linked list
+        # is not reached
+        while (current):
+            if (count == index):
+                current.data =value
+                return current.data 
+            count += 1
+            current = current.ref
+        assert(false)
+        return 0
+
+ #remove element
+    def deleteNodeAtGivenPosition(self, position):
+        if self.head is None:
+            return
+        index = 0
+        current = self.head
+        while current.ref and index < position:
+            previous = current
+            current = current.ref
+            index += 1
+        if index < position  :
+            print("Error")
+        elif index == 0:
+            self.head = self.head.ref
+        else:
+            previous.ref = current.ref
+            
+#length of linked list
+    def length(self):
+        current = self.head
+        length = 0
+        while current:
+            length = length + 1
+            current = current.ref
+        return length
+    
+#search for element
+    def search(self, x):
+        current = self.head
+        
+ 
+        # loop till current not equal to None
+        while current != None:
+            if current.data == x:
+                return True  # data found
+ 
+            current = current.ref
+ 
+        return False  # Data Not found
+        
+#sublist from list
+class LinkedListSublist:
+     
+    def __init__(self):
+         
+        self.head = None
+     
+    # Function to push node
+    # at beginning of a
+    # Linked List
+    def pushNode(self, new_data):
+         
+        new_node = Node(new_data)
+        new_node.ref = self.head
+        self.head = new_node
+     
+#      Function to find sublist
+#     def subList(self, head, A, B):
+         
+#         subcurrent = None
+#         subend = None
+#         current = self.head
+#         i = 1
+  
+#         # Traverse between indices
+#         while (current != None and i <= B):
+  
+#             # If the starting index
+#             # of the sublist is found
+#             if (i == A):
+#                 subcurrent = current
+  
+#             # If the ending index of
+#             # the sublist is found
+#             if (i == B):
+#                 subend = current
+#                 subend.ref = None
+  
+#             # Move to next node
+#             current = current.ref
+#             i += 1
+  
+#         # Return the head
+#         # of the sublist
+#         return subcurrent
+         
+        
+    
+if __name__ == "__main__":
+
+    LL1= LinkedList()
+    for i in range(len(lst)):
+        LL1.add_end(lst[i])
+    
+if(command == "add"):
+    element=int(input())
+    LL1.add_end(element)
+    print(LL1)
+    
+
+elif(command == "addToIndex"):
+    index=int(input())
+    num=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+    else:
+        lst.insert(index, num)
+        print(lst)
+
+    
+elif(command=="get"):
+    index=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+        
+    else:
+        print(LL1.getNth(index))
+        
+        
+elif(command=="set"):
+    
+    index=int(input())    
+    num=int(input())
+    if(index>len(lst)-1 or index<0 ):
+        print("Error")
+        
+    else:
+        LL1.setNth(index,num)
+        print(LL1)
+
+      
+elif(command =="clear"):
+    lst =[]
+    print(lst)
+    
+elif(command =="size"):
+    print(LL1.length())
+    
+elif(command =="isEmpty"):
+    if LL1.length()==0:
+        print("True")
+    else:
+        print("False") 
+    
+        
+elif(command =="remove"):
+    
+    index=int(input())
+    if(index>len(lst)-1 or index<0 ):
+    
+        print("Error")
+       
+    else:
+        
+        LL1.deleteNodeAtGivenPosition(index)
+        print(LL1)
+         
+        
+        # lst.pop(index)
+        # print(lst)
+   
+    
+        
+    
+elif(command=="sublist"):
+    st_index=int(input())
+    nd_index=int(input())
+    #list = LinkedListSublist()
+    if(st_index<len(lst) and nd_index<len(lst) and st_index>=0 and nd_index>0 and st_index<=nd_index):
+        
+        #print(list.head = list.subList(LL1.head, st_index, nd_index))
+        print(lst[st_index:nd_index +1])
+    else:
+        
+        print("Error")
+        
+    
+    
+elif(command=="contains"):
+    num=int(input())
+
+    if LL1.search(num):
+        print("True")
+    else:
+        print("False")
+    
